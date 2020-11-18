@@ -1,0 +1,142 @@
+{% extends 'base.html'  %}
+{% load humanize  %}
+{% block title %} | Bienvenu {% endblock %}  
+{% load static %}
+
+{% block content  %}
+
+<!-- Showcase -->
+
+<section id="showcase" style="background: url('/static/img/showcase2.jpeg') no-repeat top center fixed;">
+    <div class="container text-center">
+      
+      <div class="home-search p-5">
+        <div class="overlay p-5">
+          <h1 class="display-4 mb-4">
+            Chercher votre bien immobilier
+          </h1>
+          <p class="lead">Vous y trouverez la rapidement la maison qui vous correspond</p>
+          <div class="search">
+            {% include 'listings/searchform.html' %}
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Listings -->
+  <section id="listings" class="py-5">
+    <div class="container">
+      <h3 class="text-center mb-3">Derniers Ajouts</h3>
+      <div class="row">
+
+        {% if listings %}
+
+        {% for listing in listings  %}
+
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card listing-preview">
+            {% if listing.photo_main %}
+          <img class="card-img-top" src="{{listing.photo_main.url}}" alt="" width=200px height = 200px >
+            {% endif %}
+            <div class="card-img-overlay">
+              <h2>
+                <span class="badge badge-secondary text-white">{{listing.price | intcomma}} FCFA</span>
+              </h2>
+            </div>
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                <h4 class="text-primary">{{listing.title}}</h4>
+                <p>
+                  <i class="fas fa-map-marker text-secondary"></i> {{listing.ville}} {{listing.arrondissement}}, {{listing.district}}</p>
+              </div>
+              <hr>
+              <div class="row py-2 text-secondary">
+                <div class="col-6">
+                  <i class="fas fa-car"></i> {{ listing.type_immo }}</div>
+                  {% if listing.sqft  %}
+                  <div class="col-6">
+                    <i class="fas fa-th-large"></i> surface: {{ listing.sqft }} m²
+                   </div>
+                   {% endif %}
+                  
+                  {% if listing.lot_size  %}
+                  <div class="col-6">
+                    <i class="fas fa-th-large"></i> Taille de la parcelle: {{ listing.lot_size }} m²
+                   </div>
+                   {% endif %}
+               
+              </div>
+              <hr>
+              <div class="row py-2 text-secondary">
+                <div class="col-12">
+                  <i class="fas fa-user"></i> {{ listing.address }}</div>
+                  <div class="col-12">
+                    <i class="fas fa-user"></i> {{ listing.description|truncatewords:50 }}</div>
+                </div>
+              
+              <hr>
+              <div class="row py-2 text-secondary">
+                <div class="col-6">
+                  <i class="fas fa-user"></i> {{listing.realtor}}</div>
+              </div>
+              <div class="row text-secondary pb-2">
+                <div class="col-12">
+                  <i class="fas fa-clock"></i> {{listing.list_date | timesince}}</div>
+              </div>
+              <hr>
+              <a href=" {% url 'listings:listing' listing.id  %}  " class="btn btn-primary btn-block">Plus d'info</a>
+            </div>
+          </div>
+        </div>
+
+
+        {% endfor %}
+
+        {% else  %}
+        <div class="col-md-12">
+          <p>Aucun ajout disponible.</p>
+        </div>
+
+        {% endif %}
+
+        
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-5 bg-primary text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <i class="fas fa-comment fa-4x mr-4"></i>
+          <hr>
+          <h3>Services de consultation</h3>
+          <p>Vous pouvez nous contactez à nos numéros ou nous envoyer un e-mail pour des questions rélatives à la gestion des propriétés.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-home fa-4x mr-4"></i>
+          <hr>
+          <h3>Gestion de Propriété</h3>
+          <p>Nos propriétés sont ajoutés par des volantaires quelconques après s'etre inscris sur le site. en s'inscrivant en tant qu'agent
+            vous avez la possibilité de bien gerer vos biens immobiliers gratuitement.</p>
+        </div>
+        <div class="col-md-4">
+          <i class="fas fa-suitcase fa-4x mr-4"></i>
+          <hr>
+          <h3>Location et vente</h3>
+          <p>Nos mettons sur notre site des annonces relatives à la location et la vente des bien immobiliers à travers tout le Congo, 
+            pour toutes informations supplementaires, veuillez contacter l'agent immobilier responsable de l'annonce..</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="{% static 'js/jquery-3.5.1.min.js'  %}"></script>
+  <script src="{% static 'myjs/jqueryComm.js' %}"></script>
+  <script src="{% static 'myjs/jqueryVille.js' %}"></script>
+  <script src="{% static 'myjs/jqueryGenre.js' %}"></script>
+  <script src="{% static 'myjs/jqueryType.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,148 @@
+{% load static %}
+<form  method="GET" id="searchForm" action="{% url 'listings:search' %}" data-arrondissements-url="{% url 'listings:ajax_load_arrondissements' %}" data-districts-url="{% url 'listings:ajax_load_districts' %}" >
+    <!-- Form Row 1 -->
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label class="sr-only">Keywords</label>
+        <input type="text" name="keywords" class="form-control" placeholder="mots clé (piscine, goudron, etc)" 
+        
+        >
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label class="sr-only">Ville</label>
+        <select name="ville" id="ville" class="form-control">
+          <option selected="true" disabled="disabled">Ville (Toutes)</option>
+          {% for ville in villes %}
+            {% if ville  %}
+            <option value="{{ ville.id }}">{{ville.name}}</option>
+            
+         
+            {% endif %}
+
+
+          {% endfor  %}
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label class="sr-only">Arrondissement</label>
+        <select name="arrondissement" id="arrondissement" class="form-control" >
+          
+        </select>
+      </div>
+    </div>
+    <!-- Form Row 2 -->
+
+    
+    <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label class="sr-only">District</label>
+        <select name="district" id="district" class="form-control" >
+          
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label class="sr-only">Type</label>
+        <select name="type" class="form-control" id="type">
+          <option selected="true" disabled="disabled">Type (Any)</option>
+          {% for key,value in type_immo.items %}
+
+         
+            <option value="{{key}}">{{value}}</option>
+         
+
+
+          {% endfor  %}
+        </select>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <label class="sr-only">Genre</label>
+        <select name="genre" class="form-control" id="genre">
+          <option selected="true" disabled="disabled">Genre (Any)</option>
+          {% for key,value in gender_choices.items %}
+
+         
+            
+            <option value="{{key}}" id="{{ value }}">{{value}}</option>
+       
+
+
+          {% endfor  %}
+        </select>
+      </div>
+    </div>
+      <!--form row 3 -->
+      <div class="form-row">
+      <div class="col-md-4 mb-3">
+        <label class="sr-only" >Bedrooms</label>
+        <select name="bedrooms" class="form-control" id="bedrooms" hidden='true'>
+          <option selected="true" disabled="disabled">Chambres (Toutes)</option>
+          {% for key,value in bedroom_choices.items %}
+
+            
+            <option value="{{key}}">{{value}}</option>
+       
+
+
+          {% endfor  %}
+        </select>
+      </div>
+        <div class="col-md-4 mb-3">
+          <label class="sr-only">Kitchen</label>
+          <select name="kitchen" class="form-control" id="kitchen" hidden='true'>
+            <option selected="true" disabled="disabled">Cuisine (Toutes)</option>
+            {% for key,value in bedroom_choices.items %}
+
+           
+            
+              <option value="{{key}}">{{value}}</option>
+            
+
+
+            {% endfor  %}
+          </select>
+        </div>
+      <div class="col-md-4 mb-3">
+        <select name="price" class="form-control" id='price'>
+          <option selected="true" disabled="disabled">Max Price (All)</option>
+          {% for key,value in price_choices.items %}
+
+            
+            <option value="{{key}}">{{value}}</option>
+           
+
+
+          {% endfor  %}
+        </select>
+      </div>
+      <div class="col-md-4 mb-3">
+        <select name="sell_price" class="form-control" id="sell_price" hidden='true'>
+          <option selected="true" disabled="disabled">Max Price (All)</option>
+          {% for key,value in price_choices_sell.items %}
+
+  
+            
+            <option value="{{key}}">{{value}}</option>
+          
+
+
+          {% endfor  %}
+        </select>
+      </div>
+   
+      </div>
+       <!--form row 4 -->
+       <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label class="sr-only">Salon</label>
+          <input type="number"  name="rooms" id="rooms" class="form-control" placeholder="nombre de salon" hidden='true'>
+           
+        </div>
+       
+      </div>
+    
+    <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+  </form>

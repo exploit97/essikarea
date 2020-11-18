@@ -1,0 +1,100 @@
+{% extends 'base.html'  %}
+
+{% block title %} | Realtor Registration {% endblock %}  
+
+{% block content  %}
+
+<section id="register" class="bg-light py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-header bg-primary text-white">
+              {% if request.user.is_authenticated %}
+
+<!-- signup section -->
+{% if request.user.profile.is_mvp == True %}
+  <h1 class="text-center">Votre compte dispose du droit d'agent immobilier</h1><br>
+  <p class="text-center">
+    En ayant un compte agent, vous avez déjà un accès complet à cette plateforme. Vous pouvez : </p>
+
+  <div data-aos="fade-right" class="row mt-4 mb-4 bg-light">
+    <div class="col-md-4 text-center">
+      <h3 class="p-4">Vous pouvez ajouter un bien immobilier</h3> 
+      <a href="{% url 'listings:add_property' %}" class="btn btn-outline-primary m-4">Ajouter une propriété</a>
+    </div>
+    <div class="col-md-4 text-center">
+      <h3 class="p-4">Gerez vos bien immobilier</h3> 
+      <a href="{% url 'listings:add_property' %}" class="btn btn-outline-primary m-4">Voir vos biens</a>
+    </div>
+    
+  </div>
+  {% else %}
+
+    
+       
+            <input type="text" placeholder="Email" name="e-mail">
+            <input type="text" placeholder="Numéro de téléphone" name="phone">
+            <button class="site-btn">
+              Soumettre la demande</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endif %}
+<!-- signup section end -->
+{% else %}
+{% endif %}
+              <h4>
+                <i class="fas fa-user-plus"></i> Enreigistrez vous en tant qu'agent</h4>
+                <p>Pour vous inscrire en tant que professeur sur la plate-forme, vous devez remplir les champs suivants et vous aurez alors un accès complet pour télécharger des cours et des vidéos.</p>
+            </div>
+            <div class="card-body">
+
+              {% include 'partials/_alert.html' %}
+
+              <form action="/demande/" method="post" class="signup-form">
+                    {% csrf_token  %}
+                    <!-- Secure Data -->
+                  <div class="form-group">
+                  <label for="first_name"> Nom</label>
+                  <input type="text" name="first_name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" name="email" class="form-control" required>
+                </div>
+              
+                <div class="form-group">
+                  <label for="phone">Numéro de téléphone</label>
+                  <input type="text" name="phone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label for="photo">photo</label>
+                  <input type="image" name="photo" class="form-control" required>
+                </div>
+               
+                <input type="submit" value="Register" class="btn btn-secondary btn-block">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock  %}
+
+
+
+    
+
+
+
+
+

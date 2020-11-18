@@ -1,0 +1,321 @@
+{% extends 'base.html'  %}
+{% load static %}
+
+{% block title %} | Ajouter une propriété {% endblock %}  
+
+{% load humanize %}
+{% block content  %}
+
+
+{% if request.user.is_authenticated %}
+    {% if request.user.profile.is_mvp %}
+    <p>{{request.user.username}}</p>
+   
+ <!-- <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12">
+          <p>Bonjour!!!</p>
+          <p>En ajoutant gratuitement une propriété sans votre compte agent, elle ne s'afficherait sur notre site que pendant une semaine.
+          </p>
+          <p>Veuillez créer un <a href="#">compte agent</a> pour que vous puissiez bien gerer vos propriétés!!!</p>
+                 <a href="#"><button class="btn btn-secondary">Creer un compte Agent</button></a> 
+              
+              </div>
+            </div>
+          </div>  -->
+      
+
+<section id="showcase-inner" class="showcase-search text-white py-5">
+    <div class="container">
+      <div class="row text-center">
+
+        <div class="col-md-12">
+          <p>Veuillez remplir ce formulaire pour ajouter gratuitement votre propriété</p>
+
+
+
+            <form action="{% url 'listings:add_property' %}" method="POST" enctype="multipart/form-data" data-arrondissements-url="{% url 'listings:ajax_load_arrondissements' %}" data-districts-url="{% url 'listings:ajax_load_districts' %}" id="searchForm">
+                {% csrf_token %}
+              <!-- Form Row 1 -->
+              <div class="form-row">
+         
+                    <div class="col-md-4 mb-3">
+                      <label class="sr-only">Titre*</label>
+                      <input type="text" name="title" class="form-control" placeholder="Titre" 
+                    
+                      >
+                    </div>
+      
+
+                    <div class="col-md-4 mb-3">
+                      <label class="sr-only">Ville*</label>
+                      <select name="ville" id="ville" class="form-control">
+                        <option selected="true" disabled="disabled">Ville (Toutes)</option>
+                        {% for ville in villes %}
+                          {% if ville  %}
+                          <option value="{{ ville.id }}">{{ville.name}}</option>
+                          
+                       
+                          {% endif %}
+              
+              
+                        {% endfor  %}
+                      </select>
+                    </div>
+        
+                    <div class="col-md-4 mb-3">
+                      <label class="sr-only">Arrondissement</label>
+                      <select name="arrondissement" id="arrondissement" class="form-control" >
+                        
+                      </select>
+                    </div>
+                  </div>
+            
+               <!-- Form Row 2 -->
+               <div class="form-row">
+                
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Quartier</label>
+                  <select name="district" id="district" class="form-control" >
+                    
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Address</label>
+                  <input type="text" name="address" class="form-control" placeholder="Address">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Type</label>
+                  <select name="type" class="form-control" id="type">
+                    <option selected="true" disabled="disabled">Type (Any)</option>
+                    {% for key,value in type_immo.items %}
+          
+                      <option value="{{key}}">{{value}}</option>
+          
+          
+                    {% endfor  %}
+                  </select>
+                </div>
+                
+              
+            </div>
+                    <!-- Form Row 3 -->
+                    <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <label class="sr-only">Genre</label>
+                        <select name="genre" class="form-control" id="genre">
+                          <option selected="true" disabled="disabled">Genre (Any)</option>
+                          {% for key,value in gender_choices.items %}
+                
+                      
+                            <option value="{{key}}" id="{{ value }}">{{value}}</option>
+                          
+                
+                
+                          {% endfor  %}
+                        </select>
+                      </div>
+
+                      <div class="col-md-4 mb-3">
+                        <label class="sr-only" >Bedrooms</label>
+                        <select name="bedrooms" class="form-control" id="bedrooms" hidden='true'>
+                          <option selected="true" disabled="disabled">Bedrooms (Any)</option>
+                          {% for key,value in bedroom_choices.items %}
+                
+                            <option value="{{key}}">{{value}}</option>
+                        
+                
+                
+                          {% endfor  %}
+                        </select>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label class="sr-only">Kitchen</label>
+                        <select name="kitchen" class="form-control" id="kitchen" hidden="true">
+                          <option selected="true" disabled="disabled">Cuisine (Any)</option>
+                          {% for key,value in bedroom_choices.items %}
+              
+                            <option value="{{key}}">{{value}}</option>
+                           
+              
+              
+                          {% endfor  %}
+                        </select>
+                      </div>
+                    </div>
+
+                       <!-- Form Row 4 -->
+                     
+                
+                      <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                          <label class="sr-only">Salon</label>
+                          <input type="number"  name="rooms" id="rooms" class="form-control" placeholder="nombre de salon" hidden='true'>
+                           
+                        </div>
+                       
+                    
+
+                      <div class="col-md-4 mb-3">
+                        <label class="sr-only">Bathrooms</label>
+                        <input type="number"  name="bathrooms" class="form-control" placeholder="Bathrooms" id="bathrooms" hidden='true'>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label class="sr-only">Garage</label>  
+                        <input type="number"  name="garage" id="garage" class="form-control" placeholder="Garage" hidden="true">
+                         
+                      </div>
+                     
+                      
+                      
+                    </div>
+
+                     <!-- Form Row 5 -->
+                     
+                     <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <label class="sr-only">Veranda</label>  
+                        <input type="number"  name="veranda" id="veranda" class="form-control" placeholder="Veranda" hidden="true">
+                         
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label class="sr-only">Price</label>  
+                        <input type="number"  name="price" class="form-control" placeholder="Price">
+                         
+                      </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="sr-only">Sqft</label>
+                          <input type="number" name="sqft" id="sqft" class="form-control" placeholder="metres carrés" hidden='false'>
+                        </div>
+                        
+                    </div>
+
+
+                      <!-- Form Row 5 -->
+                     <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                        <label class="sr-only">Lot_size</label>
+                      <input type="number" name="lot_size" id="lot_size" class="form-control" placeholder="Taille de la parcelle" hidden='true'>
+                    </div>
+                      
+                    <div class="col-md-4 mb-3">
+                      <label class="sr-only">Photo_main</label>
+                    <input type="file" name="photo_main" class="form-control" placeholder="Photo_main">
+                  </div>
+                  
+                     </div> 
+                    
+                       <!-- Form Row 7 -->
+                     <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                          <label class="sr-only">Photo_1</label>
+                          <input type="file" name="photo_1"  class="form-control" placeholder="Photo_1">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="sr-only">Photo_2</label>
+                          <input type="file" name="photo_2"  class="form-control" placeholder="Photo_2">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="sr-only">Photo_3</label>
+                          <input type="file" name="photo_3"  class="form-control" placeholder="Photo_3">
+                        </div>
+                      </div>
+      <!-- Form Row 8 -->
+      <div class="form-row">
+        <div class="col-md-4 mb-3">
+          <label class="sr-only">Photo_4</label>
+          <input type="file" name="photo_4"  class="form-control" >
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="sr-only">Photo_5</label>
+          <input type="file" name="photo_5"  class="form-control">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="sr-only">Photo_6</label>
+          <input type="file" name="photo_6" class="form-control">
+        </div>
+      </div>
+                       <!-- Form Row 5 -->
+                     <div class="form-row">
+                        <div class="col-md-12">
+                          
+                          <textarea  name="description" class="form-control" placeholder="Description">Description</textarea>
+                        </div>
+                        
+                         
+                      </div>
+                    <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          {% else %}
+       
+        <section id="overviews" class="section wb">
+            <div class="container">
+                <div class="section-title row text-center">
+                    <div class="col-md-12">
+                        <h2 class="lead">Creer un compte agent pour ajouter un bien immobilier</h2>
+                          <p>Creer un compte afin d'ajouter une annonce dans le site. Choisiser le format qui vous correspond. </p>
+                        
+                    </div>
+                </div><!-- end title -->
+        
+                <hr class="invis"> 
+        
+                <div class="row"> 
+                    <div class=" card col-lg-6 col-12">
+                        <div class="card-body">
+                            
+    
+                            <div class="card-title">
+                                <h5><a href="#">Particulier(gratuit)</a></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Pour les particuliers</h6>
+                            
+                                <p class="card-text">
+                                Créer un compte d'agent gratuitement, en tant que particulier afin de poster votre bien immobilier. </p>
+                                <a href="{% url 'accounts:demande_form' %}" class="card-link btn btn-primary">Creer</a>
+                              
+                            
+                        </div>
+                        </div>
+                    </div><!-- end col -->
+               
+                    
+                      <div class="card col-lg-6 col-12" >
+                      <div class="card-body">
+                        <div class="card-title">
+                        <h5>Proffessionel(5000 FCFA)</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Pour les agents immobiliers</h6>
+                        <p class="card-text">Créer un compte professionel pour votre agence, afin de poster votre bien immobilier. </p>
+                        <a href="#" class="card-link btn btn-primary">Creer</a>
+                        
+                        </div> 
+                      </div>
+                  </div><!-- end col -->
+
+                </div>
+            </div>
+        </section>
+
+     
+         <br>   <br>  <br> <br>   <br>  
+         
+{% endif %}
+{% endif %}
+
+<script src="{% static 'js/jquery-3.5.1.min.js'  %}"></script>
+   <script src="{% static 'myjs/jqueryComm.js' %}"></script>
+   <script src="{% static 'myjs/jqueryVille.js' %}"></script>
+   <script src="{% static 'myjs/jqueryGenre.js' %}"></script>
+   <script src="{% static 'myjs/jqueryType.js' %}"></script>
+   <script src="{% static 'myjs/add_prop.js' %}"></script>
+{% endblock %}
+
+           
+          
+         

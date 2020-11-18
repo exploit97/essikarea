@@ -1,0 +1,54 @@
+{% extends 'base.html'  %}
+
+{% block title %} | Ajouter une propriété {% endblock %}  
+
+{% load humanize %}
+{% block content  %}
+<section id="overviews" class="section wb">
+    <div class="container">
+        <div class="section-title row text-center">
+            <div class="col-md-12" >
+                <h2 class="lead">Creer un compte agent pour ajouter un bien immobilier</h2>
+                  <p>Creer un compte afin d'ajouter une annonce dans le site. Choisiser le format qui vous correspond. </p>
+                
+            </div>
+        </div><!-- end title -->
+
+        <hr class="invis"> 
+
+        <div class="row"> 
+            <div class=" card  col-12">
+                <div class="card-body">
+                    
+                  
+                    <div class="card-title"><h2>Etapes pour ajouter un bien immobilier</h2>  
+                        <p class="card-text">  
+                            <ul> 
+                            <li><a href="{% url 'realtors:profile' %}">Mettez d'abord à jour votre profile</a> </li>  
+                    
+                            <li><a href="{% url 'listings:add_property'%}">Choisissez un plan</a> </li>            
+       
+                        </ul> 
+                      
+                        </p>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                </div>
+                </div>
+            </div><!-- end col -->
+       
+            
+              
+
+        </div>
+    </div>
+    <br><br><br>
+</section>
+
+
+
+
+
+{% endblock %}

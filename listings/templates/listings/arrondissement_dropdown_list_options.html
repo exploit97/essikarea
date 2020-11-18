@@ -1,0 +1,6 @@
+<option value="" selected="true" disabled="disabled">{{title}}</option>
+{% for arrondissement in arrondissements %}
+{% if arrondissement %}
+<option value="{{ arrondissement.pk }}">{{ arrondissement.name }}</option>
+{% endif %}
+{% endfor %}

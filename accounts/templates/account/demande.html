@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load i18n %}
+
+{% block title %} | Demande {% endblock %}  
+
+{% load humanize %}
+{% block content  %}
+
+
+<section class="bg-light py-5">
+    <div  data-setbg="{% static 'img/building.jpg' %}"></div>
+    <div class="container">
+      <div class="row">
+        <div class="card col-md-12">
+          <div class="card-header bg-primary text-white">
+            <h4>
+              <i class="fas fa-sign-in-alt"></i> Compte Agent</h4>
+          </div>
+          <div class="card-body">
+           
+            <!-- signup form -->
+            <form action="{% url 'realtors:demande' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="password2">Nom de l'agence</label>
+                  <input type="text"  name="name" class="form-control" placeholder="Nom de l'agence">
+                </div>
+                <div class="form-group">
+                  <label for="password2">Email</label>
+                  <input type="text"  name="e-mail" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                  <label for="password2">Phone</label>
+                  <input type="text" placeholder="Numéro de téléphone" name="phone" class="form-control">
+                </div>
+             
+              
+              <button class="site-btn">
+                Soumettre la demande</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endblock %}
